@@ -1,0 +1,60 @@
+
+<?xml version="1.0"?>
+<!-- https://github.com/WordPress/WordPress-Coding-Standards/wiki/Customizable-sniff-properties -->
+<!-- https://github.com/WordPress/WordPress-Coding-Standards/blob/develop/phpcs.xml.dist.sample -->
+<ruleset name="Vokab">
+
+    <!-- Exclude index.php Files -->
+    <exclude-pattern>/index.php</exclude-pattern>
+
+    <!-- Exclude the Composer Vendor directory. -->
+    <exclude-pattern>/vendor/*</exclude-pattern>
+
+    <!-- Exclude the Node Modules directory. -->
+    <exclude-pattern>/node_modules/*</exclude-pattern>
+
+    <!-- Exclude the Dist directory. -->
+    <exclude-pattern>/dist/*</exclude-pattern>
+
+    <!-- Exclude minified Javascript files. -->
+    <exclude-pattern>*.min.js</exclude-pattern>
+
+    <rule ref="WordPress-Docs"/>
+
+    <rule ref="WordPress-Extra">
+        <!-- Allow arrays defined with brackets [] vs only with array() function. -->
+        <exclude name="Universal.Arrays.DisallowShortArraySyntax.Found"/>
+    </rule>
+
+    <rule ref="WordPress.Security.EscapeOutput">
+        <properties>
+            <!-- Custom Safe Echoing Functions -->
+            <property name="customEscapingFunctions" type="array">
+            </property>
+            <!-- Custom Safe Returning Functions -->
+            <property name="customAutoEscapedFunctions" type="array">
+                <element value="matador_build_attributes"/>
+            </property>
+            <!-- Custom Safe Printing Functions -->
+            <property name="customPrintingFunctions" type="array">
+            </property>
+        </properties>
+    </rule>
+
+    <rule ref="WordPress.PHP.NoSilencedErrors">
+        <properties>
+            <property name="context_length" value="8"/>
+        </properties>
+    </rule>
+
+    <config name="minimum_supported_wp_version" value="6.6.1"/>
+
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" type="array">
+                <element value="vokab"/>
+            </property>
+        </properties>
+    </rule>
+
+</ruleset>
