@@ -166,7 +166,7 @@ final class Vokab {
 	 * @return void
 	 */
 	public static function initialize(): void {
-
+		add_action( 'init', [ __CLASS__, 'register_settings' ], 9 );
 	}
 
 	/**
@@ -234,5 +234,46 @@ final class Vokab {
 				return;
 			}
 		}
+	}
+
+	/**
+	 * Registers the option object to store the plugin's settings
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function register_settings(): void {
+		$default_values = [
+			'wordsPerPracticeSession'   => 5,
+			'practiceReminderFrequency' => 'daily',
+		];
+
+		$schema = [
+			'type'       => 'object',
+			'properties' => [
+				'wordsPerPracticeSession'          => [
+					'type' => 'integer',
+				],
+				'practiceReminderFrequency' => [
+					'type' => 'string',
+					'enum' => [
+						'daily',
+						'weekly',
+					],
+				],
+			],
+		];
+
+		register_setting(
+			'options',
+			'vokab',
+			[
+				'type'         => 'object',
+				'default'      => $default_values,
+				'show_in_rest' => [
+					'schema' => $schema,
+				],
+			]
+		);
 	}
 }
