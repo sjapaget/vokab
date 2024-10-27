@@ -1,8 +1,13 @@
+import apiFetch from '@wordpress/api-fetch';
 import domReady from '@wordpress/dom-ready';
-import { createRoot } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
-import { Panel,
+import { 
+    createRoot,
+    useState,
+    useEffect 
+} from '@wordpress/element';
+import { 
+    Panel,
     PanelBody,
     PanelRow,
     TextareaControl,
@@ -21,6 +26,7 @@ const SettingsPage = () => {
         setWordsPerPracticeSession,
         practiceReminderFrequency,
         setPracticeReminderFrequency,
+        saveSettings
     } = useSettings();
 
     return (
@@ -46,7 +52,7 @@ const SettingsPage = () => {
                     </PanelRow>
                 </PanelBody>
             </Panel>
-            <SaveButton onClick={ () => {} } />
+            <SaveButton onClick={ saveSettings } />
         </>
     );
 };
@@ -62,14 +68,35 @@ domReady( () => {
 } );
 
 const useSettings = () => {
-    const [ wordsPerPracticeSession, setWordsPerPracticeSession ] = useState( 5 );
-    const [ practiceReminderFrequency, setPracticeReminderFrequency ] = useState( 'daily' );
+    const [ wordsPerPracticeSession, setWordsPerPracticeSession ] = useState();
+    const [ practiceReminderFrequency, setPracticeReminderFrequency ] = useState();
+
+    useEffect( () => {
+        apiFetch( { path: 'wp/v2/settings' } ).then( ( settings ) => {
+                setWordsPerPracticeSession( settings.vokab.wordsPerPracticeSession );
+                setPracticeReminderFrequency( settings.vokab.practiceReminderFrequency );
+        } );
+    }, [] );
+
+    const saveSettings = () => {
+        apiFetch( {
+            path: '/wp/v2/settings',
+            method: 'POST',
+            data: {
+                vokab: {
+                    wordsPerPracticeSession,
+                    practiceReminderFrequency,
+                },
+            },
+        } ).then( (data) => console.log(data) );
+    }
 
     return {
         wordsPerPracticeSession,
         setWordsPerPracticeSession,
         practiceReminderFrequency,
         setPracticeReminderFrequency,
+        saveSettings
     };
 };
 

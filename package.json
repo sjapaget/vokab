@@ -21,7 +21,9 @@
     "@wordpress/scripts": "^30.3.0"
   },
   "dependencies": {
+    "@wordpress/api-fetch": "^7.10.0",
     "@wordpress/dom-ready": "^4.10.0",
-    "@wordpress/element": "^6.10.0"
+    "@wordpress/element": "^6.10.0",
+    "@wordpress/i18n": "^5.10.0"
   }
 }

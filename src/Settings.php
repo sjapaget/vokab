@@ -43,6 +43,8 @@ class Settings {
 	 * @return void
 	 */
 	public function __construct() {
+		add_action( 'init', [ __CLASS__, 'register_setting' ] );
+
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
@@ -118,6 +120,46 @@ class Settings {
 		);
 
 		wp_enqueue_style( 'wp-components' );
+	}
 
+	/**
+	 * Registers the option object to store the plugin's settings
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function register_setting(): void {
+		$default_values = [
+			'wordsPerPracticeSession'   => 5,
+			'practiceReminderFrequency' => 'daily',
+		];
+
+		$schema = [
+			'type'       => 'object',
+			'properties' => [
+				'wordsPerPracticeSession'          => [
+					'type' => 'integer',
+				],
+				'practiceReminderFrequency' => [
+					'type' => 'string',
+					'enum' => [
+						'daily',
+						'weekly',
+					],
+				],
+			],
+		];
+
+		register_setting(
+			'options',
+			'vokab',
+			[
+				'type'         => 'object',
+				'default'      => $default_values,
+				'show_in_rest' => [
+					'schema' => $schema,
+				],
+			]
+		);
 	}
 }
