@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "wp-scripts build",
+    "build": "wp-scripts build --output-path=",
     "start": "wp-scripts start"
   },
   "repository": {
@@ -19,5 +19,9 @@
   "homepage": "https://github.com/sjapaget/vokab#readme",
   "devDependencies": {
     "@wordpress/scripts": "^30.3.0"
+  },
+  "dependencies": {
+    "@wordpress/dom-ready": "^4.10.0",
+    "@wordpress/element": "^6.10.0"
   }
 }

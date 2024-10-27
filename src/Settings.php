@@ -13,7 +13,7 @@
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License version 3
  */
 
-namespace vokab\core;
+namespace vokab;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -48,6 +48,7 @@ class Settings {
 		}
 
 		add_action( 'admin_menu', [ __CLASS__, 'admin_menu' ], 100 );
+		add_action( 'admin_enqueue_scripts', [ __CLASS__, 'enqueue_style_script' ] );
 	}
 
 	/**
@@ -76,6 +77,44 @@ class Settings {
 		printf(
 			'<div class="wrap" id="vokab-settings">%s</div>',
 			esc_html__( 'Loading…', 'vokab' )
+		);
+	}
+
+	/**
+	 * Enqueue Script for Settings Page
+	 *
+	 * @since 1.0.0
+	 * @param  string $admin_page - the string identifying which admin page we're on.
+	 * @return void
+	 */
+	public static function enqueue_style_script( string $admin_page ): void {
+
+		if ( 'settings_page_vokab' !== $admin_page ) {
+			return;
+		}
+
+		$plugin_file = dirname( __DIR__ ) . '/vokab.php';
+
+		if ( ! file_exists( $plugin_file ) ) {
+			return;
+		}
+
+		$asset_file  = plugin_dir_path( $plugin_file ) . 'build/index.asset.php';
+
+		if ( ! file_exists( $asset_file ) ) {
+			return;
+		}
+
+		$asset = include $asset_file;
+
+		wp_enqueue_script(
+			'vokab-settings-script',
+			plugins_url( 'build/index.js', $plugin_file ),
+			$asset['dependencies'],
+			$asset['version'],
+			[
+				'in_footer' => true
+			]
 		);
 	}
 }
