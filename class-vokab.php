@@ -188,7 +188,7 @@ final class Vokab {
 		}
 
 		if ( is_admin() ) {
-			new Settings();
+			new settings\Settings();
 		}
 	}
 

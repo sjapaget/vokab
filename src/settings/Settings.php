@@ -13,7 +13,7 @@
  * @license     https://opensource.org/licenses/GPL-3.0 GNU General Public License version 3
  */
 
-namespace vokab;
+namespace vokab\settings;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -93,13 +93,13 @@ class Settings {
 			return;
 		}
 
-		$plugin_file = dirname( __DIR__ ) . '/vokab.php';
+		$plugin_file = WP_PLUGIN_DIR . '/vokab/vokab.php';
 
 		if ( ! file_exists( $plugin_file ) ) {
 			return;
 		}
 
-		$asset_file  = plugin_dir_path( $plugin_file ) . 'build/index.asset.php';
+		$asset_file = plugin_dir_path( $plugin_file ) . 'build/index.asset.php';
 
 		if ( ! file_exists( $asset_file ) ) {
 			return;
