@@ -116,5 +116,8 @@ class Settings {
 				'in_footer' => true
 			]
 		);
+
+		wp_enqueue_style( 'wp-components' );
+
 	}
 }
