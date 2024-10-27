@@ -239,6 +239,10 @@ final class Vokab {
 	/**
 	 * Registers the option object to store the plugin's settings
 	 *
+	 * This is here, and not in the settings class, because the settings class loads too late
+	 * for the options to register in the REST API. @todo Find a way to have this happen in
+	 * the settings class.
+	 *
 	 * @since 1.0.0
 	 * @return void
 	 */
