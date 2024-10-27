@@ -166,7 +166,7 @@ final class Vokab {
 	 * @return void
 	 */
 	public static function initialize(): void {
-		new core\Word();
+
 	}
 
 	/**
@@ -184,13 +184,12 @@ final class Vokab {
 		 * @param bool
 		 */
 		if ( apply_filters( 'vokab_load_class_word', true ) ) {
-			// new Word();
+			// new core\Word();
 		}
 
 		if ( is_admin() ) {
 			new core\Settings();
 		}
-
 	}
 
 	/**
