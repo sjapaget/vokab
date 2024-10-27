@@ -259,6 +259,7 @@ final class Vokab {
 					'enum' => [
 						'daily',
 						'weekly',
+						'never',
 					],
 				],
 			],

@@ -138,6 +138,7 @@ const PracticeReminderFrequencyControl = ( { value, onChange } ) => {
                     value: 'never'
                 }
             ]}
+            value={ value }
             __nextHasNoMarginBottom
         />
     )
