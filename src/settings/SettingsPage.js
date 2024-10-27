@@ -1,11 +1,6 @@
-import apiFetch from '@wordpress/api-fetch';
 import domReady from '@wordpress/dom-ready';
 import { __ } from '@wordpress/i18n';
-import { 
-    createRoot,
-    useState,
-    useEffect 
-} from '@wordpress/element';
+import { createRoot } from '@wordpress/element';
 import { 
     Panel,
     PanelBody,
@@ -18,6 +13,8 @@ import {
     // eslint-disable-next-line @wordpress/no-unsafe-wp-apis
     __experimentalHeading as Heading,
 } from '@wordpress/components';
+
+import { useSettings } from './useSettings';
 
 const SettingsPage = () => {
 
@@ -66,39 +63,6 @@ domReady( () => {
         root.render( <SettingsPage /> );
     }
 } );
-
-const useSettings = () => {
-    const [ wordsPerPracticeSession, setWordsPerPracticeSession ] = useState();
-    const [ practiceReminderFrequency, setPracticeReminderFrequency ] = useState();
-
-    useEffect( () => {
-        apiFetch( { path: 'wp/v2/settings' } ).then( ( settings ) => {
-                setWordsPerPracticeSession( settings.vokab.wordsPerPracticeSession );
-                setPracticeReminderFrequency( settings.vokab.practiceReminderFrequency );
-        } );
-    }, [] );
-
-    const saveSettings = () => {
-        apiFetch( {
-            path: '/wp/v2/settings',
-            method: 'POST',
-            data: {
-                vokab: {
-                    wordsPerPracticeSession,
-                    practiceReminderFrequency,
-                },
-            },
-        } ).then( (data) => console.log(data) );
-    }
-
-    return {
-        wordsPerPracticeSession,
-        setWordsPerPracticeSession,
-        practiceReminderFrequency,
-        setPracticeReminderFrequency,
-        saveSettings
-    };
-};
 
 const WordsPerPracticeSessionControl = ( { value, onChange } ) => {
     return (
