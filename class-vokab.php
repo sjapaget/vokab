@@ -166,7 +166,7 @@ final class Vokab {
 	 * @return void
 	 */
 	public static function initialize(): void {
-		new core\Word();
+		add_action( 'init', [ __CLASS__, 'register_settings' ], 9 );
 	}
 
 	/**
@@ -184,13 +184,12 @@ final class Vokab {
 		 * @param bool
 		 */
 		if ( apply_filters( 'vokab_load_class_word', true ) ) {
-			// new Word();
+			// new core\Word();
 		}
 
 		if ( is_admin() ) {
-			new core\Settings();
+			new settings\Settings();
 		}
-
 	}
 
 	/**
@@ -235,5 +234,51 @@ final class Vokab {
 				return;
 			}
 		}
+	}
+
+	/**
+	 * Registers the option object to store the plugin's settings
+	 *
+	 * This is here, and not in the settings class, because the settings class loads too late
+	 * for the options to register in the REST API. @todo Find a way to have this happen in
+	 * the settings class.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public static function register_settings(): void {
+		$default_values = [
+			'wordsPerPracticeSession'   => 5,
+			'practiceReminderFrequency' => 'daily',
+		];
+
+		$schema = [
+			'type'       => 'object',
+			'properties' => [
+				'wordsPerPracticeSession'          => [
+					'type' => 'integer',
+				],
+				'practiceReminderFrequency' => [
+					'type' => 'string',
+					'enum' => [
+						'daily',
+						'weekly',
+						'never',
+					],
+				],
+			],
+		];
+
+		register_setting(
+			'options',
+			'vokab',
+			[
+				'type'         => 'object',
+				'default'      => $default_values,
+				'show_in_rest' => [
+					'schema' => $schema,
+				],
+			]
+		);
 	}
 }
