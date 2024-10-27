@@ -5,16 +5,14 @@ import {
     Panel,
     PanelBody,
     PanelRow,
-    TextareaControl,
-    // eslint-disable-next-line @wordpress/no-unsafe-wp-apis
-    __experimentalNumberControl as NumberControl,
-    SelectControl,
     Button,
     // eslint-disable-next-line @wordpress/no-unsafe-wp-apis
     __experimentalHeading as Heading,
 } from '@wordpress/components';
 
 import { useSettings } from './useSettings';
+import WordsPerPracticeSessionControl from './WordsPerPracticeSessionControl';
+import PracticeReminderFrequencyControl from './PracticeReminderFrequencyControl';
 
 const SettingsPage = () => {
 
@@ -49,7 +47,13 @@ const SettingsPage = () => {
                     </PanelRow>
                 </PanelBody>
             </Panel>
-            <SaveButton onClick={ saveSettings } />
+            <Button
+                variant='primary'
+                onClick={ saveSettings }
+                __next40pxDefaultSize
+            >
+                { __( 'Save Settings', 'vokab' ) }
+            </Button>
         </>
     );
 };
@@ -63,59 +67,3 @@ domReady( () => {
         root.render( <SettingsPage /> );
     }
 } );
-
-const WordsPerPracticeSessionControl = ( { value, onChange } ) => {
-    return (
-        <NumberControl
-            label={ __( 'Words Per Practice Session', 'vokab' ) }
-            labelPosition="side"
-            onChange={ onChange }
-            value= { value }
-            __nextHasNoMarginBottom
-        />
-    );
-}
-
-const PracticeReminderFrequencyControl = ( { value, onChange } ) => {
-    return (
-        <SelectControl
-            size="__unstable-large"
-            label={ __( 'Practice Reminder Frequency', 'vokab' ) }
-            labelPosition="side"
-            onChange={ onChange }
-            options={[
-                {
-                    disabled: true,
-                    label: __( 'Select an option', 'vokab' ),
-                    value: ''
-                },
-                {
-                    label: __( 'Daily', 'vokab' ),
-                    value: 'daily'
-                },
-                {
-                    label: __( 'Weekly', 'vokab' ),
-                    value: 'weekly'
-                },
-                {
-                    label: __( 'Never', 'vokab' ),
-                    value: 'never'
-                }
-            ]}
-            value={ value }
-            __nextHasNoMarginBottom
-        />
-    )
-}
-
-const SaveButton = ( { onClick } ) => {
-    return (
-        <Button
-            variant='primary'
-            onClick={ onClick }
-            __next40pxDefaultSize
-        >
-            { __( 'Save', 'vokab' ) }
-        </Button>
-    )
-}
